@@ -2,7 +2,7 @@
 const { Schema, model } = require("mongoose");
 
 // Construct a new instance of the schema class
-const userSchema = new Schema(
+const thoughtSchema = new Schema(
   {
     // Configure individual properties using Schema Types
     username: { type: String, unique: true, required: true, trim: true },
@@ -21,12 +21,6 @@ const userSchema = new Schema(
         ref: "Thoughts",
       },
     ],
-    friends: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
   },
   {
     toJSON: {
@@ -36,6 +30,6 @@ const userSchema = new Schema(
   }
 );
 
-const User = model("user", userSchema);
+const Thoughts = model("thoughts", thoughtSchema);
 
-module.exports = User;
+module.exports = Thoughts;
