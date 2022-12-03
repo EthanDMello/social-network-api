@@ -5,8 +5,8 @@ const { Schema, model } = require("mongoose");
 const thoughtSchema = new Schema(
   {
     // Configure individual properties using Schema Types
-    username: { type: String, unique: true, required: true, trim: true },
-    email: {
+    thoughtText: { type: String, required: true, minLength: 1, maxLength: 280 },
+    createdAt: {
       type: String,
       unique: true,
       required: true,
