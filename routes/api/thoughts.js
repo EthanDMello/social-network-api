@@ -1,10 +1,10 @@
 const router = require("express").Router();
 const { Thoughts } = require("../../models");
 
-// /api/users/
+// /api/thoughts/
 router.route("/").get((req, res) => res.json("hit thoughts"));
 
-// /api/users/all
+// /api/thoughts/all
 router.route("/all").get((req, res) => {
   Thoughts.find()
     .then((thoughts) => res.json(thoughts))
