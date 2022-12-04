@@ -6,16 +6,16 @@ const thoughtSchema = new Schema(
   {
     // Configure individual properties using Schema Types
     thoughtText: { type: String, required: true, minLength: 1, maxLength: 280 },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
-    username: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
+    // createdAt: {
+    //   type: Date,
+    //   default: Date.now,
+    // },
+    // username: [
+    //   {
+    //     type: Schema.Types.ObjectId,
+    //     ref: "User",
+    //   },
+    // ],
   },
   {
     toJSON: {
