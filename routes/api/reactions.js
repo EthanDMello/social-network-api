@@ -1,8 +1,8 @@
 const router = require("express").Router();
-const { Thoughts, User } = require("../../models");
+const { Thoughts, Reactions } = require("../../models");
 
 // /api/thoughts/
-router.route("/").get((req, res) => res.json("hit thoughts"));
+router.route("/").get((req, res) => res.json("hit reactions"));
 
 // /api/thoughts/all
 router.route("/all").get((req, res) => {

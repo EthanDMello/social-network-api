@@ -18,9 +18,19 @@ router.route("/new").post((req, res) => {
     .catch((err) => res.status(500).json(err));
 });
 
+router.route("/:id").get((req, res) => {
+  User.findOne({ _id: req.params.id })
+    .select("-__v")
+    .then((user) =>
+      !user
+        ? res.status(404).json({ message: "No user with that ID" })
+        : res.json(user)
+    )
+    .catch((err) => res.status(500).json(err));
+});
+
 // /api/users/friend
-router.route("/:userId").put((req, res) => {
-  // newParam = parseInt(req.params.userId);
+router.route("/friend/:userId").put((req, res) => {
   User.findByIdAndUpdate(
     { _id: req.params.userId },
     { $addToSet: { friends: req.body.friends } },
@@ -31,6 +41,17 @@ router.route("/:userId").put((req, res) => {
         ? res.status(404).json({ message: "No user with this id!" })
         : res.json(user);
     })
+    .catch((err) => res.status(500).json(err));
+});
+
+// api/users/delete/:id
+router.route("/delete/:id").delete((req, res) => {
+  User.findOneAndRemove({ _id: req.params.id })
+    .then((user) =>
+      !user
+        ? res.status(404).json({ message: "No user with that ID" })
+        : res.json(user)
+    )
     .catch((err) => res.status(500).json(err));
 });
 
