@@ -1,5 +1,5 @@
 // Require schema from mongoose
-const { Schema } = require("mongoose");
+const { Schema, Types } = require("mongoose");
 
 // Construct a new instance of the schema class
 const reactionsSchema = new Schema(
@@ -13,7 +13,7 @@ const reactionsSchema = new Schema(
       required: true,
       maxlength: 280,
     },
-    username: {
+    thoughtId: {
       type: String,
       required: true,
     },

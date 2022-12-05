@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { Thoughts, User } = require("../../models");
+const { Thoughts, User, Reactions } = require("../../models");
 
 // /api/thoughts/
 router.route("/").get((req, res) => res.json("hit thoughts"));
@@ -15,10 +15,9 @@ router.route("/all").get((req, res) => {
 router.route("/new").post((req, res) => {
   Thoughts.create(req.body)
     .then((thought) => {
-      console.log(thought._id.toString(), req.body.userId);
       return User.findByIdAndUpdate(
         { _id: req.body.userId },
-        { $addToSet: { thoughts: thought._id.toString() } },
+        { $addToSet: { thoughts: thought } },
         { runValidators: true, new: true }
       );
     })
@@ -40,6 +39,36 @@ router.route("/:id").get((req, res) => {
       !thoughts
         ? res.status(404).json({ message: "No thoughts with that ID" })
         : res.json(thoughts)
+    )
+    .catch((err) => res.status(500).json(err));
+});
+
+// /api/thoughts/:id/reactions/new
+router.route("/:id/reactions/new").post((req, res) => {
+  Thoughts.findOneAndUpdate(
+    { _id: req.params.id },
+    { $addToSet: { reactions: req.body } },
+    { runValidators: true, new: true }
+  )
+    .then((thoughts) =>
+      !thoughts
+        ? res.status(404).json({ message: "No thoughts with that ID" })
+        : res.json(thoughts)
+    )
+    .catch((err) => res.status(500).json(err));
+});
+
+// /api/thoughts/:id/reactions/delete
+router.route("/:id/reactions/delete").delete((req, res) => {
+  Thoughts.findOneAndUpdate(
+    { _id: req.params.id },
+    { $pull: { reactions: { reactionId: req.body.reactionId } } },
+    { runValidators: true, new: true }
+  )
+    .then((thought) =>
+      !thought
+        ? res.status(404).json({ message: "No reaction with that ID" })
+        : res.json(thought)
     )
     .catch((err) => res.status(500).json(err));
 });
