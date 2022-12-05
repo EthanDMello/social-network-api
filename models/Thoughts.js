@@ -1,9 +1,6 @@
 // Require schema and model from mongoose
 const { Schema, model } = require("mongoose");
-
-const timeFormat = (date) => {
-  return Date();
-};
+const Reactions = require("./Reactions");
 
 // Construct a new instance of the schema class
 const thoughtSchema = new Schema(
@@ -13,14 +10,14 @@ const thoughtSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
-      // set: timeFormat,
     },
-    // username: [
-    //   {
-    //     type: Schema.Types.ObjectId,
-    //     ref: "User",
-    //   },
-    // ],
+    username: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    reactions: [Reactions],
   },
   {
     toJSON: {
@@ -29,9 +26,15 @@ const thoughtSchema = new Schema(
     id: false,
     // 2022-12-04T20:59:45.559Z"
     // 2022-12-04T21:00:02.516Z
-    timestamps: { currentTime: () => Math.floor(Date.now() / 1000) },
   }
 );
+
+thoughtSchema
+  .virtual("reactionCount")
+  // Getter
+  .get(function () {
+    return `${this.reactions.length}`;
+  });
 
 const Thoughts = model("thoughts", thoughtSchema);
 
