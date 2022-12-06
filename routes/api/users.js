@@ -33,7 +33,7 @@ router.route("/:id").get((req, res) => {
 router.route("/friend/:userId").put((req, res) => {
   User.findByIdAndUpdate(
     { _id: req.params.userId },
-    { $addToSet: { friends: req.body } },
+    { $addToSet: { friends: req.body.friends } },
     { runValidators: true, new: true }
   )
     .then((user) => {
